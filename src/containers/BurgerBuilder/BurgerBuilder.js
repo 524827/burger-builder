@@ -1,43 +1,40 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import classes from './BurgerBuilder.css';
-import axios from 'axios';
+import axios from '../../axios';
 
 // ingredients price
 const INGREDIENT_PRICES = {
   salad: 5,
   cheese: 10,
   meat: 3,
-  bacon: 7
+  bacon: 7,
 };
 
-class BurgerBuilder extends PureComponent {
-
-
+class BurgerBuilder extends Component {
   state = {
-    prizes:[],
+    prizes: [],
     ingredients: {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat:0,
-
+      meat: 0,
     },
     purchasable: false,
     purchasing: false,
-    totalPrice:50,
-  }
+    totalPrice: 50,
+  };
 
   componentDidMount() {
-    axios.get('http://localhost:3000/users/all-winners')
-      .then(response => {
-      this.setState({prizes:response.data.data.prizes})
-      })
- }
+    axios.get('users').then(response => {
+      console.log(response);
+     // this.setState({ prizes: response.data.data.prizes });
+    });
+  }
 
   /**
    *@function purchasable()
@@ -52,9 +49,9 @@ class BurgerBuilder extends PureComponent {
       })
       .reduce((sum, el) => {
         return sum + el;
-      },0);
+      }, 0);
     this.setState({
-      purchasable: sum > 0
+      purchasable: sum > 0,
     });
   }
 
@@ -67,48 +64,59 @@ class BurgerBuilder extends PureComponent {
    * @function addIngredientHandler
    * function for add ingredient in burger
    */
-  addIngredientHandler = (type) => {
+  addIngredientHandler = type => {
     const oldCount = this.state.ingredients[type];
     const updatedCount = oldCount + 1;
     const updatedIngredient = {
-      ...this.state.ingredients
-    }
+      ...this.state.ingredients,
+    };
     updatedIngredient[type] = updatedCount;
     const priceAdditions = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice + priceAdditions
+    const newPrice = oldPrice + priceAdditions;
     this.setState({ totalPrice: newPrice, ingredients: updatedIngredient });
     this.puchasableState(updatedIngredient);
-  }
+  };
 
-
-
-/**
- * @param - ingredient type
+  /**
+   * @param - ingredient type
    * @function rempveIngredientHandler
    * function for remove ingredient into burger
    */
-  reomoveIngredientHandler = (type) => {
+  reomoveIngredientHandler = type => {
     const oldCount = this.state.ingredients[type];
     if (oldCount <= 0) {
       return;
     }
     const updatedCount = oldCount - 1;
     const updatedIngredient = {
-      ...this.state.ingredients
-    }
+      ...this.state.ingredients,
+    };
     updatedIngredient[type] = updatedCount;
     const priceDeduction = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice - priceDeduction;
     this.setState({ totalPrice: newPrice, ingredients: updatedIngredient });
     this.puchasableState(updatedIngredient);
-  }
+  };
 
-
-  handleSave = () => {
-    alert('save data');
-  }
+  handleSaveIgredients = () => {
+    const data = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'namdev',
+        address: {
+          street: 'trambak road',
+          zipCode: '422001',
+          state: 'maharashtra',
+          country: 'india',
+        },
+      },
+      mailId: 'namdevjagtap@gmail.com',
+    };
+    axios.post('users/ingredients', data);
+  };
 
   render() {
     // check if ingredient are available or not
@@ -122,12 +130,12 @@ class BurgerBuilder extends PureComponent {
         <Modal show={this.state.purchasing}>
           <OrderSummary
             ingredients={this.state.ingredients}
-            click={() => this.handleSave()}
-            price={this.state.totalPrice}/>
-       </Modal>
+            click={() => this.handleSaveIgredients()}
+            price={this.state.totalPrice}
+          />
+        </Modal>
         <div className={classes.Burger}>
-          <Burger ingredients={this.state.ingredients}
-           />
+          <Burger ingredients={this.state.ingredients} />
         </div>
         <div>
           <BuildControls
@@ -135,14 +143,14 @@ class BurgerBuilder extends PureComponent {
             ingredientAdded={this.addIngredientHandler}
             ingredientRemove={this.reomoveIngredientHandler}
             disableInfo={disableInfo}
-            purchaseHandler = {()=>this.purchaseHandler()}
-            purchasable = {this.state.purchasable}
-            currentPrice = {this.state.totalPrice}
+            purchaseHandler={() => this.purchaseHandler()}
+            purchasable={this.state.purchasable}
+            currentPrice={this.state.totalPrice}
           />
         </div>
       </Aux>
     );
-}
+  }
 }
 
 export default BurgerBuilder;
