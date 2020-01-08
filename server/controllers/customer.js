@@ -14,7 +14,7 @@ exports.getCustomers = (req, res, next) => {
 }
 
 exports.setCustomers = (req, res, next) => {
-  userDetails.setCostomerData((err, result) => {
+  userDetails.setCustomerData(req,(err, result) => {
     if (err) {
       sendResponse(res, err, 'Something went wrong', true);
     } else {

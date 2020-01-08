@@ -1,15 +1,16 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
 const customersRoutes = require('./routes/customer');
 const http = require('http');
-const con = require('./connection/connection');
+const MongoDB = require('./connection/dbConnection');
 
+const mongoConnection = new MongoDB();
 const app = express();
+
 app.use(cors());
 
 // view engine setup
@@ -23,19 +24,18 @@ app.use(
     extended: false,
   })
 );
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/customers', customersRoutes);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -49,7 +49,7 @@ app.use(function (err, req, res, next) {
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
@@ -66,9 +66,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-con.connect(function (err) {
-  if (err) throw err;
-});
+mongoConnection.connect();
 /**
  * Normalize a port into a number, string, or false.
  */
