@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux/Aux'
-import axios from 'axios';
+import { Modal, Button }from 'react-bootstrap';
 
 class OrderSummary extends Component{
 
 
 
   render() {
-
+    console.log('hello');
   /**
    * store all ingredients in list
    */
   const ingredientSummary = Object.keys(this.props.ingredients)
     .map(igkey => {
-      console.log(this.props.ingredients[igkey]);
       return <li key={igkey}><span style={{ textTransform: 'capitalize' }}>{igkey}</span>:{this.props.ingredients[igkey]}</li>
     })
 
@@ -25,11 +24,11 @@ class OrderSummary extends Component{
         {ingredientSummary}
       </ul>
      <p><strong>Total Price:{this.props.price}</strong></p>
-     <p>Continue to checkout?</p>
-  <div className="modal-footer">
-    <button type="button" className="btn btn-secondary" data-dismiss="modal">NO</button>
-    <button type="button" className="btn btn-primary" onClick={this.props.click}>CONTINUE</button>
-  </div>
+        <p>Continue to checkout?</p>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.props.closedModal}>Close</Button>
+          <Button variant="primary" onClick={this.props.click}>Save Changes</Button>
+        </Modal.Footer>
      </Aux>
 );
   }

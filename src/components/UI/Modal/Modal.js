@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import ModalView from 'react-bootstrap/Modal';
 
 
 class Modal extends Component{
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.show !== this.props.show || nextProps.children !== this.props.children
+}
+
   render() {
     return (
-      <div className="modal fade" id="modalbox" tabIndex="-1" role="dialog" aria-hidden="true">
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-body">
-               {this.props.children}
-              </div>
-        </div>
-      </div>
-    </div>
+      <ModalView show={this.props.show} onHide={this.props.hideModal}>
+        <ModalView.Body> {this.props.children}</ModalView.Body>
+      </ModalView>
       );
   }
 }
