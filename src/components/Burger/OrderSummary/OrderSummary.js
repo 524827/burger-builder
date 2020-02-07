@@ -4,10 +4,8 @@ import { Modal, Button }from 'react-bootstrap';
 
 class OrderSummary extends Component{
 
-
-
   render() {
-    console.log('hello');
+    console.log(this.props);
   /**
    * store all ingredients in list
    */

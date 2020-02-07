@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';
-import Toast from '../../components/UI/Toast/Toast'
 
 
 const withErrorHandler = (WrappedComponent, axios) => {
@@ -12,6 +11,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       errorMsg: null
     };
 
+
     componentDidMount() {
       // Set axios interceptors
       this.requestInterceptor = axios.interceptors.request.use(req => {
@@ -20,9 +20,13 @@ const withErrorHandler = (WrappedComponent, axios) => {
       });
 
       this.responseInterceptor = axios.interceptors.response.use(
-        res => res,
-         error => {
-          this.setState({error:true, errorMsg: error.message });
+        res => {
+          console.log('res');
+          return res;
+        },
+        error => {
+          console.log(error);
+          this.setState({ error: true, errorMsg: error.message });
         }
       );
     }

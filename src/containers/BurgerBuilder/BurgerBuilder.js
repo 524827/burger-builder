@@ -107,8 +107,23 @@ class BurgerBuilder extends Component {
     this.puchasableState(updatedIngredient);
   };
 
+  /**
+   * @function handleSaveIgredients()
+   * function for handle ingredient
+   */
   handleSaveIgredients = () => {
-    this.setState({
+
+    let queryParam = [];
+    for (let i in this.state.ingredients) {
+      queryParam.push(encodeURIComponent(i)+ '=' +encodeURIComponent(this.state.ingredients[i]));
+    }
+    queryParam.push('price=' + this.state.totalPrice);
+   const queryString = queryParam.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
+    /*  this.setState({
       loader: true,
       purchasing:false
     });
@@ -130,19 +145,30 @@ class BurgerBuilder extends Component {
     axios
       .post('customers/ingredients', data)
       .then(response => {
+        console.log(response);
         this.setState({
           loader: false,
           error:false
         });
+        let queryParam = [];
+        for (let i in this.state.ingredients) {
+          queryParam.push(encodeURIComponent(i)+ '=' +encodeURIComponent(this.state.ingredients[i]));
+        }
+        queryParam.push('price=' + this.state.totalPrice);
+       const queryString = queryParam.join('&');
+        this.props.history.push({
+          pathname: '/checkout',
+          search:'?'+ queryString
+        })
       })
       .catch(err => {
-        console.log('error')
+        console.log(err)
         this.setState({
           loader: false,
           error:true
         });
-      });
-  };
+      }); */
+  }
 
   /**
    * @function hideModal
@@ -150,8 +176,8 @@ class BurgerBuilder extends Component {
    */
   hideModal = () => {
     this.setState({
-      purchasing:false
-    })
+      purchasing: false
+    });
   }
 
   render() {

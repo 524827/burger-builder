@@ -1,8 +1,12 @@
 import React from 'react';
 import classes from './Spinner.css';
+import { Spinner} from 'react-bootstrap';
 
 const spinner = () => {
-return <div className={classes.Loader}>Loading...</div>
+
+return <Spinner animation="border" role="status">
+<span className="sr-only">Loading...</span>
+</Spinner>
 }
 
 export default spinner;

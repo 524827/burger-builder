@@ -12,7 +12,6 @@ const toast = (props) => {
   style={{
     position: 'relative',
     minHeight: '100px',
-    zIndex:"1000"
   }}>
     <Toast style={{position: 'absolute',left:0,bottom:0}} show={props.show}  delay={2000} autohide>
     <Toast.Header>
