@@ -27,6 +27,7 @@ class UserModel {
         bacon: req.body.ingredients.bacon,
         meat: req.body.ingredients.meat,
       },
+      price: req.body.price,
       customer: {
         cname: req.body.customer.name,
         email: req.body.customer.mailId,

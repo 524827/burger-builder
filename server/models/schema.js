@@ -8,6 +8,7 @@ const ingredients = new Schema({
     bacon: Number,
     meat: Number,
   },
+  price: String,
   customer: {
     cname: String,
     email: String,
