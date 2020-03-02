@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { connect} from 'react-redux';
+
 import CheckoutSummary from '../../components/CheckoutSummary/CheckoutSummary';
 import { Route } from 'react-router-dom';
 import ContactDetails from '../Checkout/ContactDetails/ContactDetails'
 
 
 class Checkout extends Component {
-  state = {
-    ingredients: null,
-    totalPrice: 0
-  }
+
 
   UNSAFE_componentWillMount() {
 
@@ -40,11 +39,19 @@ class Checkout extends Component {
   render() {
     return (
       <div>
-        <CheckoutSummary ingredients={this.state.ingredients} click={()=>this.handleCotantactDetails()}/>
-        <Route path={this.props.match.path + '/contact-details'} render={() => (<ContactDetails ingredients={this.state.ingredients} price={this.state.totalPrice}/>)} ></Route>
+        <CheckoutSummary ingredients={this.props.ings} click={()=>this.handleCotantactDetails()}/>
+        <Route path={this.props.match.path + '/contact-details'}
+        component={ContactDetails} />
       </div>
   );
 }
 }
 
-export default Checkout
+const mapStateToProps = state => {
+  return {
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice
+  }
+}
+
+export default connect(mapStateToProps)(Checkout);
