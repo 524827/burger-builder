@@ -3,10 +3,12 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
-const indexRouter = require('./routes/index');
-const customersRoutes = require('./routes/customer');
 const http = require('http');
+
 const MongoDB = require('./connection/dbConnection');
+const indexRouter = require('./routes/index');
+const customersRouter = require('./routes/customer');
+const ingredientsRouter = require('./routes/ingredients');
 
 const mongoConnection = new MongoDB();
 const app = express();
@@ -27,7 +29,8 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/customers', customersRoutes);
+app.use('/customers', customersRouter);
+app.use('/ingredients', ingredientsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

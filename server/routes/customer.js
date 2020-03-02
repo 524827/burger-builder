@@ -5,6 +5,6 @@ const customer = require('../controllers/customer');
 /* GET users listing. */
 router.get('/', customer.getCustomers);
 
-router.post('/ingredients', customer.setCustomers);
+router.post('/customers-info', customer.setCustomers);
 
 module.exports = router;

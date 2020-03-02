@@ -1,17 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ingredients = new Schema({
-  ingredients: {
-    salad: Number,
-    cheese: Number,
-    bacon: Number,
-    meat: Number,
-  },
-  price: String,
+const customers = new Schema({
   customer: {
-    cname: String,
-    email: String,
+    first_name: String,
+    last_name: String,
+    email_address: String,
     mobile_no: String,
     address: {
       street: String,
@@ -22,4 +16,17 @@ const ingredients = new Schema({
   }
 });
 
-exports.customers = mongoose.model('customers', ingredients, 'customers');
+exports.customers = mongoose.model('customers', customers, 'customers');
+
+const ingredients = new Schema({
+  ingredients: {
+    salad: Number,
+    cheese: Number,
+    bacon: Number,
+    meat: Number,
+  },
+  total_price: Number
+});
+
+exports.ingredients = mongoose.model('ingredient', ingredients, 'ingredients');
+

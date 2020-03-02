@@ -1,7 +1,7 @@
-const connection = require('../connection/connection');
 const customerSchema = require('./schema');
 
 class UserModel {
+
   getCustomerData(callback) {
 
     const customers = customerSchema.customers.find({}, (err, result) => {
@@ -20,23 +20,18 @@ class UserModel {
   }
 
   setCustomerData(req, callback) {
-    const customer = customerSchema.customers({
-      ingredients: {
-        salad: req.body.ingredients.salad,
-        cheese: req.body.ingredients.cheese,
-        bacon: req.body.ingredients.bacon,
-        meat: req.body.ingredients.meat,
-      },
-      price: req.body.price,
+    console.log(req.body);
+     const customer = customerSchema.customers({
       customer: {
-        cname: req.body.customer.name,
-        email: req.body.customer.mailId,
-        mobile_no: req.body.customer.mobile_no,
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        email_address:req.body.emailId,
+        mobile_no: req.body.mobile_no,
         address: {
-          street: req.body.customer.address.street,
-          zipcode: req.body.customer.address.zipCode,
-          state: req.body.customer.address.state,
-          country: req.body.customer.address.country,
+          street: req.body.street,
+          zipcode: req.body.zipCode,
+          state: req.body.state,
+          country: req.body.country,
         },
       },
     });

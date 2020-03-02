@@ -8,10 +8,12 @@ exports.getCustomers = (req, res, next) => {
     if (err) {
       sendResponse(res, err, 'Something went wrong', true);
     } else {
+      console.log(result);
       sendResponse(res, result, 'data fetch successfully', false);
     }
   });
 }
+
 
 exports.setCustomers = (req, res, next) => {
   userDetails.setCustomerData(req,(err, result) => {
