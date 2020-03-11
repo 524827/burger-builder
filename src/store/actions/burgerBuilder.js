@@ -18,10 +18,11 @@ export const removedIngredient = (ingName) => {
 }
 
 // function for set ingredients
- const setIngredients = (ings) => {
+ const setIngredients = (ings,totalPrice) => {
  return {
   type: actionType.SET_INGREDIENTS,
-  ingredients: ings
+   ingredients: ings,
+   totalPrice: totalPrice
  }
  }
 
@@ -35,11 +36,11 @@ const ingredientsFetchfailed = (error) => {
 
 // action for initiate ingredients
 export const initIngredients = () => {
-
    return dispatch => {
      axios.get('ingredients').then(response => {
-       console.log(response);
-       dispatch(setIngredients(response.data.result.ingredients))
+       const totalPrice = response.data.result.total_price
+       const ingredients = response.data.result.ingredients
+       dispatch(setIngredients(ingredients,totalPrice))
      }).catch(error => {
       console.log('hiiii'+error);
        return dispatch => {

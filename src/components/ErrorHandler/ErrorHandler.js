@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './ErrorHandler.css'
 import { Button } from 'react-bootstrap';
+import errorImg from '../../assets/images/error-500.png'
 
 
 const errorHandler = (props) => {
@@ -10,8 +11,8 @@ const errorHandler = (props) => {
  }
  return (
   <div className={classes.ErrorHandler}>
-      <div className={classes.emoji} >
-      <span role="img">&#128577;</span>
+      <div>
+      <img src={errorImg} />
       </div>
       <div>
         <h4>Something went wrong!</h4>

@@ -6,6 +6,8 @@ import Checkout from './containers/Checkout/Checkout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Orders from './containers/Orders/Orders';
 import ErrorBoundry from './hoc/ErrorBoundry/ErrorBoundry';
+import SignIn from './containers/Auth/Signin/SignIn';
+import SignUp from './containers/Auth/Signup/SignUp';
 
 
 class App extends Component{
@@ -15,7 +17,9 @@ class App extends Component{
         <Layout>
           <Switch>
             <Route path="/checkout" component={Checkout} />
-              <Route path="/orders" component={Orders} />
+            <Route path="/orders" component={Orders} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
             <Route path="/" exact component={BurgerBuilder} />
           </Switch>
         </Layout>

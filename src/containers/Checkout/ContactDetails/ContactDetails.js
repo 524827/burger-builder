@@ -76,14 +76,18 @@ class ContactDetails extends Component{
     validated: false
   }
 
-
+/**
+ * @function handleSubmit - function for send form data to server
+ * @param event - event object
+ */
   handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      this.props.onOrderBurger(this.state.formData);
+      this.props.onOrderBurger(this.state.formData, this.props.ings, this.props.price);
+
     }
 
     this.setState({
@@ -91,41 +95,11 @@ class ContactDetails extends Component{
     });
   };
 
-  orderHandler = (event) => {
-    console.log(event);
-  /*   event.preventDefault();
-    console.log(event);
-     let formData = new FormData(event.target);
-    let contactDetails = {};
-    formData.forEach((res,key) => {
-      contactDetails[key] = res;
-    })
-    console.log(formData);
-    const data = {
-      ingredients: this.props.ings,
-      price: this.props.price,
-      customer: {
-        name: 'namdev',
-        mobile_no: '7674638564',
-        emailId: 'namdevjagtap@gmail.com',
-        address: {
-          street: 'trambak road',
-          zipCode: '422001',
-          state: 'maharashtra',
-          country: 'india',
-        },
-      },
-    };
-     axios
-      .post('customers/ingredients', data)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err)
-      }); */
-  }
-
+/**
+ * @function checkValidition - function for check validation
+ * @param value- inpute value
+ * @param rules - contains validation rules
+ */
   checkValidition = (value, rules) => {
     let isValid = true;
     if (rules.required) {
@@ -143,10 +117,12 @@ class ContactDetails extends Component{
 
   }
 
-  handleChanged = (event) => {
-    console.log(event.target.value);
-  }
 
+/**
+ * @function getFormData - function for get form data
+ * @param event - event object
+ * @param inputElement - contain input element name
+ */
   getFormData = (event, inputElement) => {
     const updatedForm = {
       ...this.state.formData
@@ -255,6 +231,7 @@ class ContactDetails extends Component{
   }
 }
 
+// map state to props
 const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
@@ -262,9 +239,10 @@ const mapStateToProps = state => {
   }
 }
 
+// dispach action 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger:(orderData)=>dispatch(orders.purchaseBurderStart(orderData))
+    onOrderBurger:(orderData, ingredients, price)=>dispatch(orders.purchaseBurderStart(orderData,ingredients, price))
   }
 }
 
