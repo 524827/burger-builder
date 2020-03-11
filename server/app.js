@@ -9,6 +9,7 @@ const MongoDB = require('./connection/dbConnection');
 const indexRouter = require('./routes/index');
 const customersRouter = require('./routes/customer');
 const ingredientsRouter = require('./routes/ingredients');
+const users = require('./routes/user');
 
 const mongoConnection = new MongoDB();
 const app = express();
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/customers', customersRouter);
 app.use('/ingredients', ingredientsRouter);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

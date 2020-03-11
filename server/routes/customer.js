@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const customer = require('../controllers/customer');
 
-/* GET users listing. */
+// router for get order details 
 router.get('/', customer.getCustomers);
 
-router.post('/customers-info', customer.setCustomers);
+// router for save order details
+router.post('/customer-details', customer.setCustomers);
 
 module.exports = router;

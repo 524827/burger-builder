@@ -1,26 +1,27 @@
-const Users = require('../models/customer-model');
+const Customers = require('../models/customer-model');
 const sendResponse = require('../response/send-response');
 
-const userDetails = new Users();
+const customerDetails = new Customers();
 
+// controller for get order details from database
 exports.getCustomers = (req, res, next) => {
-  userDetails.getCustomerData((err, result) => {
+  customerDetails.getCustomerData((err, result) => {
     if (err) {
       sendResponse(res, err, 'Something went wrong', true);
     } else {
-      console.log(result);
       sendResponse(res, result, 'data fetch successfully', false);
     }
   });
-}
+};
 
-
+// controller for save order details
 exports.setCustomers = (req, res, next) => {
-  userDetails.setCustomerData(req,(err, result) => {
+  customerDetails.setCustomerData(req, (err, result) => {
     if (err) {
       sendResponse(res, err, 'Something went wrong', true);
     } else {
+      console.log(err);
       sendResponse(res, result, 'data fetch successfully', false);
     }
   });
-}
+};

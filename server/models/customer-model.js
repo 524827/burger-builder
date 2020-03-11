@@ -2,9 +2,12 @@ const customerSchema = require('./schema');
 
 class UserModel {
 
+  /**
+   * @function getCustomerData - function for get order details
+   * @param {callback } - callback function
+   */
   getCustomerData(callback) {
-
-    const customers = customerSchema.customers.find({}, (err, result) => {
+    customerSchema.customers.find({}, (err, result) => {
       if (err) throw err
       return callback(null, result);
     });
@@ -19,23 +22,33 @@ class UserModel {
      }); */
   }
 
-  setCustomerData(req, callback) {
-    console.log(req.body);
-     const customer = customerSchema.customers({
-      customer: {
-        first_name: req.body.firstName,
-        last_name: req.body.lastName,
-        email_address:req.body.emailId,
-        mobile_no: req.body.mobile_no,
-        address: {
-          street: req.body.street,
-          zipcode: req.body.zipCode,
-          state: req.body.state,
-          country: req.body.country,
-        },
-      },
-    });
+  /**
+   * @function setCustomerData - function for save order details
+   * @param {*} req - request
+   * @param {*} callback - callback function
+   */
+ async setCustomerData(req, callback) {
 
+     const customer = new customerSchema.customers({
+      customer: {
+        first_name: req.body.firstName.value,
+        last_name: req.body.lastName.value,
+        email_address:req.body.emailId.value,
+        mobile_no: req.body.mobile_no.value,
+        address: {
+          street: req.body.street.value,
+          zipcode: req.body.zipCode.value,
+          state: req.body.state.value,
+        },
+       },
+       ingredients: {
+         salad: req.body.ingredients.salad,
+         cheese: req.body.ingredients.cheese,
+         bacon: req.body.ingredients.bacon,
+         meat: req.body.ingredients.meat
+       },
+       price: req.body.totalPrice
+     });
     customer.save((err, result) => {
       if (err) {
         return callback(err, null)

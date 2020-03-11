@@ -3,6 +3,7 @@ const sendResponse = require('../response/send-response');
 
 const ingredientsDetails = new Ingedients();
 
+// controller for get ingredient details from database
 exports.getIngredients = (req, res, next) => {
  ingredientsDetails.getIngredientsDetails((err, result) => {
     if (err) {

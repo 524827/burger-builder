@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const jwt = require('jsonwebtoken');
 
-const customers = new Schema({
+const customersSchema = new Schema({
   customer: {
     first_name: String,
     last_name: String,
@@ -11,14 +12,20 @@ const customers = new Schema({
       street: String,
       zipcode: Number,
       state: String,
-      country: String
     }
-  }
+  },
+  ingredients: {
+    salad: String,
+    cheese: String,
+    bacon: String,
+    meat: String
+  },
+  price: Number,
 });
 
-exports.customers = mongoose.model('customers', customers, 'customers');
+exports.customers = mongoose.model('customers', customersSchema, 'customers');
 
-const ingredients = new Schema({
+const ingredientsShcema = new Schema({
   ingredients: {
     salad: Number,
     cheese: Number,
@@ -28,5 +35,27 @@ const ingredients = new Schema({
   total_price: Number
 });
 
-exports.ingredients = mongoose.model('ingredient', ingredients, 'ingredients');
+exports.ingredients = mongoose.model('ingredient', ingredientsShcema, 'ingredients');
+
+const userShcema = new Schema({
+  email: String,
+  password: String,
+  tokens: [{
+    token: {
+      type: String
+    },
+  }],
+  token: String
+});
+
+userShcema.methods.generateAuthToken = async (user) => {
+  const token = jwt.sign({ _id: user._id }, 'thisistoken');
+  user.tokens = user.tokens.concat({ token });
+  user.token = token;
+  await user.save();
+  return token;
+}
+
+exports.users = mongoose.model('user', userShcema, 'users');
+
 
