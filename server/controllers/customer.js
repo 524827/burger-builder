@@ -5,7 +5,8 @@ const customerDetails = new Customers();
 
 // controller for get order details from database
 exports.getCustomers = (req, res, next) => {
-  customerDetails.getCustomerData((err, result) => {
+  const user = req.query.user;
+  customerDetails.getCustomerData(user,(err, result) => {
     if (err) {
       sendResponse(res, err, 'Something went wrong', true);
     } else {

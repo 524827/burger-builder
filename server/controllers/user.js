@@ -3,6 +3,9 @@ const sendResponse = require('../response/send-response');
 
 const userDetails = new Users();
 
+/**
+ * @function getLoginDetails - function for get user login details
+ */
 exports.getUserDetails = (req, res, next) => {
  const userCredentials = {
   email: req.body.email.value,
@@ -19,6 +22,9 @@ exports.getUserDetails = (req, res, next) => {
  });
 }
 
+/**
+ * @function setLoginDetails - function for register user details
+ */
 exports.setUserDetails = (req, res, next) => {
  const userCredentials = {
   email: req.body.email,
@@ -33,4 +39,20 @@ exports.setUserDetails = (req, res, next) => {
    sendResponse(res, response, "data fetch successfully", false);
   }
  });
+}
+
+/**
+ * @function logoutUser - function for logout user from devices 
+ */
+exports.logoutUser = async (req, res, next) => {
+ try {
+   req.user.tokens = req.user.tokens.filter(token => {
+   return token.token !== req.token;
+  });
+  await req.user.save();
+  sendResponse(res, [],'Logout Successfully',false)
+ }
+ catch (e) {
+  sendResponse(res, [],'Logout Failed',true)
+ }
 }

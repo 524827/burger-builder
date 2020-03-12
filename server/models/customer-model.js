@@ -6,8 +6,8 @@ class UserModel {
    * @function getCustomerData - function for get order details
    * @param {callback } - callback function
    */
-  getCustomerData(callback) {
-    customerSchema.customers.find({}, (err, result) => {
+  getCustomerData(user,callback) {
+    customerSchema.customers.find({'customer.email_address':user}, (err, result) => {
       if (err) throw err
       return callback(null, result);
     });
@@ -28,7 +28,7 @@ class UserModel {
    * @param {*} callback - callback function
    */
  async setCustomerData(req, callback) {
-
+   console.log(req.body);
      const customer = new customerSchema.customers({
       customer: {
         first_name: req.body.firstName.value,
@@ -47,7 +47,8 @@ class UserModel {
          bacon: req.body.ingredients.bacon,
          meat: req.body.ingredients.meat
        },
-       price: req.body.totalPrice
+       price: req.body.totalPrice,
+       user: req.body.user
      });
     customer.save((err, result) => {
       if (err) {

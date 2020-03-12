@@ -23,7 +23,12 @@ class Auth {
   });
  }
 
- async setLoginDetails(userDetails, callback) {
+  /**
+   * @function setLoginDetails - function for register new user in database
+   * @param {*} userDetails - get user details from client
+   * @param {*} callback - callback function
+   */
+ setLoginDetails(userDetails, callback) {
  // ueserSchema.users.generateAuthToken();
    const users = new userSchema.users({
      email: userDetails.email.value,
@@ -36,6 +41,14 @@ class Auth {
     return callback(null, result)
   });
  }
+
+  /**
+   * @function logoutuser - function for logout user from perticular device
+   * @param {*} userDetails - get user details from client
+   */
+  logoutuser(userDetails) {
+    userSchema.users.updateOne( {'_id': req.params.name}, { $pullAll: {uid: [req.params.deleteUid] } } )
+}
 
 }
 
