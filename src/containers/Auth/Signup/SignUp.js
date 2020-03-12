@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import classes from './SignUp.css';
 import * as actions from '../../../store/actions/index';
+import * as validation from '../../../shared/validation';
 
 class SignUp extends Component{
 
@@ -57,29 +58,6 @@ handleSubmit = (event) => {
 };
 
  /**
- * @function checkValidition - function for check validation
- * @param value- inpute value
- * @param rules - contains validation rules
- */
-checkValidition = (value, rules) => {
- let isValid = true;
- if (rules.required) {
-   isValid = value.trim() !== '' && isValid;
- }
-
- if (rules.minLength) {
-   isValid = value.length >= rules.minLength && isValid;
- }
-
- if (rules.maxLength) {
-   isValid = value.length <= rules.maxLength && isValid;
- }
- return isValid;
-
-}
-
-
- /**
  * @function getFormData - function for get form data
  * @param event - event object
  * @param inputElement - contain input element name
@@ -92,7 +70,7 @@ getFormData = (event, inputElement) => {
    ...updatedForm[inputElement]
   };
  newFormData['value'] = event.target.value;
- newFormData['valid'] = this.checkValidition( newFormData.value,newFormData.validation)
+ newFormData['valid'] = validation.checkValidition( newFormData.value,newFormData.validation)
  updatedForm[inputElement] = newFormData;
  this.setState({
   formData: updatedForm
@@ -154,14 +132,6 @@ getFormData = (event, inputElement) => {
 </Container>
   );
  }
-}
-
-
-// map state to props
-const mapStateToProps = (state) => {
-  return {
-    register: state.register.registering
-  }
 }
 
 

@@ -14,7 +14,7 @@ import authentication from './store/reducer/auth';
 import register from './store/reducer/register';
 
 
-const logger = store => {
+/* const logger = store => {
   return next => {
     return action => {
       console.log('[Middleware] dispatch' + action);
@@ -23,7 +23,7 @@ const logger = store => {
       return result;
     }
   }
-}
+} */
 
 
 const rootReducer = combineReducers({
@@ -33,7 +33,7 @@ const rootReducer = combineReducers({
   register
 })
 
- const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+ const composeEnhancers = process.env.NODE_ENV === 'development'?window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__:null||  compose;
 const store = createStore(rootReducer, /* preloadedState, */composeEnhancers(compose(
     applyMiddleware(thunk)
 )));

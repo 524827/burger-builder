@@ -5,14 +5,11 @@ import errorImg from '../../assets/images/error-500.png'
 
 
 const errorHandler = (props) => {
- console.log(props);
- const handleBack = () => {
 
- }
  return (
   <div className={classes.ErrorHandler}>
       <div>
-      <img src={errorImg} />
+      <img src={errorImg} alt="errImg"/>
       </div>
       <div>
         <h4>Something went wrong!</h4>

@@ -21,12 +21,21 @@ export const login = (userCredentials) => {
 }
 
 // logout user
-export const logout = ()=> {
- // remove user from local storage to log user out
- localStorage.removeItem('user');
+export const logoutUser = (user) => {
+    
+    console.log(user.token);
+    return axios.post('/users/logout',null,{ headers: {"Authorization" : `Bearer ${user.token}`} }).then(response => {
+        localStorage.removeItem('user');
+    }).then(error => {
+
+    });
 }
 
 // register new user
-export const registerUser = (userDetails)=> {
- return axios.post('/users/register', userDetails);
+export const registerUser = (userDetails) => {
+    return axios.post('/users/register', userDetails).then(response => {
+
+    }).then(error => {
+
+    });
 }

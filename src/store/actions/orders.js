@@ -24,13 +24,13 @@ export const purchaseBurgerFailed = error => {
  * @param {*} ingredientsDetails - it contains ingredient details
  * @param {*} totalPrice - it contains total price of burger
  */
-export const purchaseBurderStart = (orderData, ingredientsDetails, totalPrice) => {
+export const purchaseBurderStart = (orderData, ingredientsDetails, totalPrice, user) => {
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': 'JWT fefege...'
   }
   const ingredients = {...ingredientsDetails}
-  const data = { ...orderData, totalPrice, ingredients };
+  const data = { ...orderData, totalPrice, ingredients, user };
   purchaseInit();
   return dispatch => {
      axios

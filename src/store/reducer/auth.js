@@ -1,5 +1,4 @@
 import * as actionType from '../actions/actionType';
-import { updateObject } from '../ulility';
 
 let user = JSON.parse(localStorage.getItem('user'));
 const initialState = user ? { isLogin: true, error: false, user } : {};
@@ -19,11 +18,15 @@ const reducer  = (state = initialState, action) =>{
      isLogin: false,
      error:true
       };
-    case actionType.USER_LOGOUT:
+    case actionType.USER_LOGOUT_SUCCESS:
     return {
      ...state,
-     isLogin: false
-      };
+      isLogin: false,
+      user
+    };
+    case actionType.USER_LOGOUT_FAILED:
+      return {
+        };
     default:
       return state
   }

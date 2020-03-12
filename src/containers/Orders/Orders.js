@@ -25,8 +25,12 @@ class Orders extends Component{
   }
 
   getCustumerDetails = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const params = {
+      user: user.user,
+    };
     axios
-   .get('customers')
+   .get('customers/user-orders',{params})
       .then(response => {
         const orderDetails = [];
         for (let key in response.data.result) {

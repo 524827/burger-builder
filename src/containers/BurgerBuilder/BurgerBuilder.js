@@ -50,6 +50,9 @@ class BurgerBuilder extends Component {
    */
   purchaseHandler() {
     this.setState({ purchasing: true }); // set true forn open Modal
+    if (!this.props.isLogin) {
+      this.props.history.push({ pathname: '/login' });
+    }
   }
 
   /**
@@ -123,7 +126,8 @@ const mapStateToProps = (state) => {
   return {
     ings: state.burgerBuilder.ingredients,
     tPrice: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isLogin: state.authentication.isLogin
   }
 }
 

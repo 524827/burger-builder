@@ -30,6 +30,19 @@ export const userSignUpFailed = (error) => {
  }
 }
 
+export const userLogoutSuccess = () => {
+  return {
+    type: actionType.USER_LOGOUT_SUCCESS
+  }
+}
+
+export const userLogoutFailed = (error) => {
+  return {
+    type: actionType.USER_LOGOUT_FAILED,
+    error: error
+  }
+}
+
 export const userSignUpStart = (userData) => {
   return dispatch => {
 
@@ -50,5 +63,16 @@ export const userLoginStart = (authCredenitals) => {
     }).catch(error => {
       dispatch(userLoginFailed(error));
     })
+  }
+}
+
+export const userLogoutStart = () => {
+  let user = JSON.parse(localStorage.getItem('user'));
+  return dispatch => {
+    authService.logoutUser(user).then(response => {
+      dispatch(userLogoutSuccess());
+    }).catch(error => {
+      dispatch(userLogoutFailed(error));
+    });
   }
 }

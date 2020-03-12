@@ -6,6 +6,7 @@ import axios from '../../../axios';
 import classes from './ContactDetails.css'
 import * as orders from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
+import * as validation from '../../../shared/validation';
 
 class ContactDetails extends Component{
 
@@ -86,7 +87,9 @@ class ContactDetails extends Component{
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      this.props.onOrderBurger(this.state.formData, this.props.ings, this.props.price);
+      let user = JSON.parse(localStorage.getItem('user'));
+      console.log(user.user);
+      this.props.onOrderBurger(this.state.formData, this.props.ings, this.props.price, user.user);
 
     }
 
@@ -94,28 +97,6 @@ class ContactDetails extends Component{
       validated: true
     });
   };
-
-/**
- * @function checkValidition - function for check validation
- * @param value- inpute value
- * @param rules - contains validation rules
- */
-  checkValidition = (value, rules) => {
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    return isValid;
-
-  }
 
 
 /**
@@ -131,7 +112,7 @@ class ContactDetails extends Component{
       ...updatedForm[inputElement]
      };
     newFormData['value'] = event.target.value;
-    newFormData['valid'] = this.checkValidition( newFormData.value,newFormData.validation)
+    newFormData['valid'] = validation.checkValidition( newFormData.value,newFormData.validation)
     updatedForm[inputElement] = newFormData;
     this.setState({
      formData: updatedForm
@@ -239,10 +220,10 @@ const mapStateToProps = state => {
   }
 }
 
-// dispach action 
+// dispach action
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger:(orderData, ingredients, price)=>dispatch(orders.purchaseBurderStart(orderData,ingredients, price))
+    onOrderBurger:(orderData, ingredients, price,user)=>dispatch(orders.purchaseBurderStart(orderData,ingredients, price,user))
   }
 }
 

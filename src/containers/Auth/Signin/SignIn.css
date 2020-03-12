@@ -14,3 +14,14 @@
 .SignUp{
 margin-top: 10px;
 }
+
+@media only screen and (max-width: 600px) {
+ .FormCard{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top:100px;
+  padding:20px;
+  width: 100%;
+ }
+}
